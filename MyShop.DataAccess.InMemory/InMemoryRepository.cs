@@ -5,10 +5,13 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using MyShop.Core;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
+
+
 namespace MyShop.DataAccess.InMemory
 {
-    public class InMemoryRepository<P> where P : BaseEntity
+    public class InMemoryRepository<P> : IInMemoryRepository<P> where P : BaseEntity //this says that this repo extends IInMemoryRepo
     {
         ObjectCache cache = MemoryCache.Default;
         List<P> items;
@@ -32,6 +35,7 @@ namespace MyShop.DataAccess.InMemory
         {
             items.Add(p);
         }
+      
         public void Update(P p)
         {
             P ptoUpdate = items.Find(i => i.Id == p.Id);

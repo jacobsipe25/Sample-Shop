@@ -5,16 +5,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.DataAccess.InMemory;
+using MyShop.Core.Contracts;
+
 namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
         // GET: ProductCategoryManager
-     
-       ProductCategoryRepository context;//creates an object instance of the Repo 
-       public ProductCategoryManagerController() //constructor method
+
+       IInMemoryRepository<ProductCategory> context;//creates an object instance of the Repo 
+       public ProductCategoryManagerController(IInMemoryRepository<ProductCategory> context) //constructor method
          {
-           context = new ProductCategoryRepository(); //full out basically a list of all of Products
+           this.context=context; //full out basically a list of all of Products
          }
                   // GET: ProductManager
        public ActionResult Index()
@@ -71,14 +73,14 @@ namespace MyShop.WebUI.Controllers
                     return View(productcat);
               }
                 productcatToEdit.Category = productcat.Category;
-                context.Commit();
+                this.context.Commit();
               return RedirectToAction("Index");
             }
 
         }
         public ActionResult Delete(string ID)
         {
-            ProductCategory productcattoremove = context.Find(ID);
+            ProductCategory productcattoremove = this.context.Find(ID);
             if (productcattoremove == null)
             {
                 return HttpNotFound();
@@ -99,8 +101,8 @@ namespace MyShop.WebUI.Controllers
             }
             else
             {
-                context.Delete(ID);
-                context.Commit();
+                this.context.Delete(ID);
+                this.context.Commit();
                 return RedirectToAction("Index");
             }
         }

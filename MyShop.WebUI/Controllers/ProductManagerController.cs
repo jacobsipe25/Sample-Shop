@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
@@ -12,12 +13,12 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        InMemoryRepository<Product> context;//creates an object instance of the Repo 
-        InMemoryRepository<ProductCategory> productCatagories;
-        public ProductManagerController() //constructor method
+        IInMemoryRepository<Product> context;//creates an object instance of the Repo 
+        IInMemoryRepository<ProductCategory> productCatagories;
+        public ProductManagerController(IInMemoryRepository<Product> productContext,IInMemoryRepository<ProductCategory>productCategoryContext) //constructor method
         {
-            context = new InMemoryRepository<Product>(); //full out basically a list of all of Products
-            productCatagories = new InMemoryRepository<ProductCategory>();
+            context = productContext; //full out basically a list of all of Products, instatiate the Repo 
+            productCatagories = productCategoryContext;//you can add methods without error, you are useing the interface which has the methods it was init with
         }
 
 
