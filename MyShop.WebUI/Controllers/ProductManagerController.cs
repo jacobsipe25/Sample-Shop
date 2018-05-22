@@ -12,12 +12,12 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        ProductRepository context;//creates an object instance of the Repo 
-        ProductCategoryRepository productCatagories;
+        InMemoryRepository<Product> context;//creates an object instance of the Repo 
+        InMemoryRepository<ProductCategory> productCatagories;
         public ProductManagerController() //constructor method
         {
-            context = new ProductRepository(); //full out basically a list of all of Products
-            productCatagories = new ProductCategoryRepository();
+            context = new InMemoryRepository<Product>(); //full out basically a list of all of Products
+            productCatagories = new InMemoryRepository<ProductCategory>();
         }
 
 
